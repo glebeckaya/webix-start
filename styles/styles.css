@@ -10,3 +10,6 @@
     font-weight: 500;
     padding: 10px 15px;
 }
+.webix_vscroll_x {
+    overflow-x: hidden;
+}

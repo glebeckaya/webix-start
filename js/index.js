@@ -7,10 +7,10 @@ const header = {
     elements: [
         { view: "label", label: "My App" },
         {
-            view:"button",
+            view: "button",
             type: "icon", 
-            icon:"mdi mdi-account", 
-            label:"Profile", 
+            icon: "mdi mdi-account", 
+            label: "Profile", 
             autowidth: true, 
             css: "webix_transparent"
         }
@@ -21,17 +21,17 @@ const header = {
 const side = {
     type: "clean",
     css: "side-section",
-    minWidth: 200,
+    width: 200,
+    minWidth: 130,
     rows: [
         {
             view: "list",
-            width: 200,
             autoheight: true,
             scroll: false,
             data: [ "Dashboard", "Users", "Products", "Locations" ]
         },
         { },
-        { template:"<span class='webix_icon mdi mdi-check'></span>Connected", autoheight:true }
+        { template: "<span class='webix_icon mdi mdi-check'></span>Connected", autoheight: true }
     ]
 };
 
@@ -60,7 +60,7 @@ const form = {
                 { view: "text", type: "number", label: "Votes" },
                 { margin: 5, cols: [
                     { view: "button", value: "Add new" , css: "webix_primary" },
-                    { view: "button", value: "Clear"}
+                    { view: "button", value: "Clear" }
                 ]}
             ]
         },
