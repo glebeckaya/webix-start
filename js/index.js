@@ -40,6 +40,7 @@ const base = {
   rows: [
     {
       view: "datatable",
+      scroll: "y",
       data: small_film_set,
       autoConfig: true
     }
@@ -48,6 +49,7 @@ const base = {
 
 const form = {
     type: "clean",
+    
     rows: [
         {
             view: "form",
@@ -65,7 +67,9 @@ const form = {
             ]
         },
         { }
-    ]
+    ],
+    scroll:false,
+    
 }
 
 const main = {
