@@ -1,12 +1,11 @@
 const popupProfile = webix.ui({
-    view: "window",
-    // top: 59,
-    // right: 0,
+    view: "popup",
     head: false,
     body: {
         view: "list",
         autoheight: true,
-        data: [ "Settings", "Log out" ]
+        data: [ "Settings", "Log out" ],
+        select: true,
     }
 });
 
@@ -25,9 +24,7 @@ const header = {
             label: "Profile", 
             autowidth: true, 
             css: "webix_transparent",
-            click: function() {
-                (popupProfile.getNode().style.display === "block") ? popupProfile.hide() : popupProfile.show(this.getNode());
-            }
+            popup: popupProfile,
         }
     ]
 };
@@ -55,6 +52,7 @@ const base = {
   rows: [
     {
       view: "datatable",
+      id: "dataFilms",
       scroll: "y",
       data: small_film_set,
       autoConfig: true
@@ -67,6 +65,7 @@ const form = {
     rows: [
         {
             view: "form",
+            id: "editFilmsForm",
             width: 300,
             elements: [
                 { template: "Edit films", type: "section" },
@@ -79,12 +78,15 @@ const form = {
                         view: "button", 
                         value: "Add new" , 
                         css: "webix_primary", 
-                        click: function() {
-                            if ($$("$form1").validate()) {
-                                let values = $$("$form1").getValues();
-                                $$("$datatable1").add(values);
+                        click() {
+                            if (this.getFormView().validate()) {
+                                let values = this.getFormView().getValues();
+                                for(let item in values) {
+                                    values[item] = values[item].replace(/[<>]/g, "");
+                                }
+                                $$("dataFilms").add(values);
                                 webix.message("Validation is successful!");
-                                $$("$form1").clear();
+                                this.getFormView().clear();
                             } else {
                                 webix.message("Please fill out all fields correctly!");
                             }
@@ -98,8 +100,9 @@ const form = {
                                 text: "Form data will be cleared"
                             }).then(
                                 function(){
-                                    $$("$form1").clear();
-                                    $$("$form1").clearValidation();
+                                    console.log(this)
+                                    $$("editFilmsForm").clear();
+                                    $$("editFilmsForm").clearValidation();
                                 }
                             );
                         }
@@ -112,9 +115,7 @@ const form = {
                     let currentDate = new Date();
                     return (value > 1970 && value <= currentDate.getFullYear());
                 },
-                rating: webix.rules.isNotEmpty && function(value) {
-                    return (value != 0) ;
-                },
+                rating: value => webix.rules.isNotEmpty && value != 0,
                 votes: function(value) {
                     return value < 100000;
                 }
