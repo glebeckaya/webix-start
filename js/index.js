@@ -69,10 +69,10 @@ const form = {
             width: 300,
             elements: [
                 { template: "Edit films", type: "section" },
-                { view: "text", label: "Title", name: "title" },
-                { view: "text", type: "number", label: "Year", name: "year" },
-                { view: "text", type: "number", label: "Rating", name: "rating" },
-                { view: "text", type: "number", label: "Votes", name: "votes" },
+                { view: "text", label: "Title", name: "title", invalidMessage: "This field is required", bottomPadding: 20 },
+                { view: "text", type: "number", label: "Year", name: "year", invalidMessage: "Enter year between 1970 and 2021", bottomPadding: 25 },
+                { view: "text", type: "number", label: "Rating", name: "rating", invalidMessage: "This field is required and can`t be 0", bottomPadding: 25 },
+                { view: "text", type: "number", label: "Votes", name: "votes", bottomPadding: 25 },
                 { margin: 5, cols: [
                     { 
                         view: "button", 
@@ -82,7 +82,7 @@ const form = {
                             if (this.getFormView().validate()) {
                                 let values = this.getFormView().getValues();
                                 for(let item in values) {
-                                    values[item] = values[item].replace(/[<>]/g, "");
+                                    values[item] = values[item].replace(/[<>]/g, " ");
                                 }
                                 $$("dataFilms").add(values);
                                 webix.message("Validation is successful!");
