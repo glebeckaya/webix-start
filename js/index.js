@@ -83,14 +83,12 @@ const form = {
                             if (!currentForm) return;
                             if (currentForm.validate()) {
                                 const values = currentForm.getValues();
-                                const correctValues = Object.fromEntries(
-                                    Object.entries(values).map(([key, value]) => [key, value.replace(/[<>]/g, " ")])
-                                );
+                                Object.keys(values).forEach(key => values[key] = values[key].replace(/[<>]/g, " "));
                                 if (!$$("dataFilms")) {
                                     webix.message("Sorry, datatable is not found");
                                     return;
                                 }
-                                $$("dataFilms").add(correctValues);
+                                $$("dataFilms").add(values);
                                 webix.message("Validation is successful!");
                                 currentForm.clear();
                             } else {
