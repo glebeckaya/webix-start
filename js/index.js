@@ -72,21 +72,27 @@ const form = {
                 { view: "text", label: "Title", name: "title", invalidMessage: "This field is required", bottomPadding: 20 },
                 { view: "text", type: "number", label: "Year", name: "year", invalidMessage: "Enter year between 1970 and 2021", bottomPadding: 25 },
                 { view: "text", type: "number", label: "Rating", name: "rating", invalidMessage: "This field is required and can`t be 0", bottomPadding: 25 },
-                { view: "text", type: "number", label: "Votes", name: "votes", bottomPadding: 25 },
+                { view: "text", type: "number", label: "Votes", name: "votes", invalidMessage: "Votes can`t be 100000 and more", bottomPadding: 25 },
                 { margin: 5, cols: [
                     { 
                         view: "button", 
                         value: "Add new" , 
                         css: "webix_primary", 
                         click() {
-                            if (this.getFormView().validate()) {
-                                let values = this.getFormView().getValues();
-                                for(let item in values) {
-                                    values[item] = values[item].replace(/[<>]/g, " ");
+                            const currentForm = this.getFormView();
+                            if (!currentForm) return;
+                            if (currentForm.validate()) {
+                                const values = currentForm.getValues();
+                                const correctValues = Object.fromEntries(
+                                    Object.entries(values).map(([key, value]) => [key, value.replace(/[<>]/g, " ")])
+                                );
+                                if (!$$("dataFilms")) {
+                                    webix.message("Sorry, datatable is not found");
+                                    return;
                                 }
-                                $$("dataFilms").add(values);
+                                $$("dataFilms").add(correctValues);
                                 webix.message("Validation is successful!");
-                                this.getFormView().clear();
+                                currentForm.clear();
                             } else {
                                 webix.message("Please fill out all fields correctly!");
                             }
@@ -100,9 +106,10 @@ const form = {
                                 text: "Form data will be cleared"
                             }).then(
                                 function(){
-                                    console.log(this)
-                                    $$("editFilmsForm").clear();
-                                    $$("editFilmsForm").clearValidation();
+                                    const editForm = $$("editFilmsForm");
+                                    if (!editForm) return;
+                                    editForm.clear();
+                                    editForm.clearValidation();
                                 }
                             );
                         }
@@ -111,14 +118,12 @@ const form = {
             ],
             rules: {
                 title: webix.rules.isNotEmpty,
-                year: function(value) {
+                year: value => {
                     let currentDate = new Date();
                     return (value > 1970 && value <= currentDate.getFullYear());
                 },
                 rating: value => webix.rules.isNotEmpty && value != 0,
-                votes: function(value) {
-                    return value < 100000;
-                }
+                votes: value => value < 100000
             }
         },
         { }
