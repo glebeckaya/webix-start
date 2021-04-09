@@ -38,9 +38,15 @@ const side = {
     rows: [
         {
             view: "list",
+            select: true,
             autoheight: true,
             scroll: false,
-            data: [ "Dashboard", "Users", "Products", "Locations" ]
+            data: [ "Dashboard", "Users", "Products", "Admin" ],
+            on: {
+                onAfterSelect(id) {
+                    $$(id).show();
+                }
+            }
         },
         { },
         { template: "<span class='webix_icon mdi mdi-check'></span>Connected", autoheight: true }
@@ -48,16 +54,17 @@ const side = {
 };
 
 const base = {
-  minWidth: 750,
-  rows: [
-    {
-      view: "datatable",
-      id: "dataFilms",
-      scroll: "y",
-      data: small_film_set,
-      autoConfig: true
-    }
-  ]
+    minWidth: 750,
+    rows: [
+        {
+            view: "datatable",
+            id: "dataFilms",
+            scroll: "y",
+            // data: small_film_set,
+            autoConfig: true,
+            url: "https://",
+        }
+    ]
 }
 
 const form = {
@@ -129,11 +136,11 @@ const form = {
 }
 
 const main = {
-    cols: [
-        side,
-        { view: "resizer" },
-        base,
-        form,
+    cells: [
+        { id: "Dashboard", cols: [base, form] },
+        { id: "Users", template: "users" },
+        { id: "Products", template: "products" },
+        { id: "Admin", template: "Admin" },
     ]
 };
 
@@ -145,5 +152,9 @@ const footer = {
 }
 
 webix.ui({
-    rows: [ header, main, footer ]
+    rows: [
+        header, 
+        {cols:[side, {view:"resizer"}, main]}, 
+        footer 
+    ]
 });
