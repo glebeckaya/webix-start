@@ -42,10 +42,6 @@ export default {
 function addFilmInfo() {
     const form = $$("editFilmsForm");
     const table = $$("dataFilms");
-    if (!table) {
-        webix.message("Sorry, datatable is not found");
-        return;
-    }
     if (form.validate()) {
         const values = form.getValues();
         if (values.id && table.exists(values.id)) {
