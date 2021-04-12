@@ -16,12 +16,12 @@ export default {
                         view: "button", 
                         value: "Add new" , 
                         css: "webix_primary", 
-                        click() {addFilmInfo($$("editFilmsForm"), $$("dataFilms"))}
+                        click: addFilmInfo
                     },
                     { 
                         view: "button", 
                         value: "Clear",
-                        click() {clearForm($$("editFilmsForm"))}
+                        click: clearForm
                     }
                 ]}
             ],
@@ -39,7 +39,9 @@ export default {
     ]
 }
 
-function addFilmInfo(form, table) {
+function addFilmInfo() {
+    const form = $$("editFilmsForm");
+    const table = $$("dataFilms");
     if (!table) {
         webix.message("Sorry, datatable is not found");
         return;
@@ -59,18 +61,10 @@ function addFilmInfo(form, table) {
 }
 
 function updateFilm(film, table) {
-    if (!table) {
-        webix.message("Sorry, datatable is not found");
-        return;
-    }
     table.updateItem(film.id, correctInfo(film));
 }
 
 function addNewFilm(film, table) {
-    if (!table) {
-        webix.message("Sorry, datatable is not found");
-        return;
-    }
     if (!film.id) {
         const ranks = []
         table.data.each(obj => ranks.push(obj.rank * 1));
@@ -96,7 +90,8 @@ function correctInfo(obj) {
     return obj;
 }
 
-function clearForm(form) {
+function clearForm() {
+    const form = $$("editFilmsForm");
     webix.confirm({
         text: "Form data will be cleared"
     }).then(
