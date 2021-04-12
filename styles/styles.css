@@ -24,6 +24,6 @@
     display: flex;
     align-items: center;
 }
-[view_id="listUsers"] .webix_list_item:nth-child(-n+5) {
+.row-highlight {
     background: burlywood;
 }
