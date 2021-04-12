@@ -16,12 +16,12 @@ export default {
                         view: "button", 
                         value: "Add new" , 
                         css: "webix_primary", 
-                        click() {addFilmInfo(this.getFormView(), $$("dataFilms"))}
+                        click() {addFilmInfo($$("editFilmsForm"), $$("dataFilms"))}
                     },
                     { 
                         view: "button", 
                         value: "Clear",
-                        click() {clearForm(this.getFormView())}
+                        click() {clearForm($$("editFilmsForm"))}
                     }
                 ]}
             ],
@@ -40,14 +40,17 @@ export default {
 }
 
 function addFilmInfo(form, table) {
-    if (!form) return;
     if (!table) {
         webix.message("Sorry, datatable is not found");
         return;
     }
     if (form.validate()) {
         const values = form.getValues();
-        (values.id && table.data.order.includes(values.id)) ? updateFilm(values, table) : addNewFilm(values, table);
+        if (values.id && table.exists(values.id)) {
+            updateFilm(values, table);
+        } else {
+            addNewFilm(values, table);
+        }
         webix.message("Validation is successful!");
         form.clear();
     } else {
@@ -69,7 +72,8 @@ function addNewFilm(film, table) {
         return;
     }
     if (!film.id) {
-        const ranks = table.data.order.map(item => table.data.pull[item].rank * 1);
+        const ranks = []
+        table.data.each(obj => ranks.push(obj.rank * 1));
         let max = ranks[0];
         ranks.forEach(elem => {
             if(max < elem){
@@ -93,7 +97,6 @@ function correctInfo(obj) {
 }
 
 function clearForm(form) {
-    if (!form) return;
     webix.confirm({
         text: "Form data will be cleared"
     }).then(

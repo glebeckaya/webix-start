@@ -2,7 +2,11 @@ export default {
     rows: [
         {   padding: 5,
             cols: [
-                { view: "text", id: "inputUsers" },
+                { 
+                    view: "text", 
+                    id: "inputUsers",
+                    on: { onTimedKeyPress: filterList }
+                },
                 { view: "button", value: "Sort asc", autowidth: true, css: "webix_primary", click: sortAsc },
                 { view: "button", value: "Sort desc", autowidth: true, css: "webix_primary", click: sortDesc }
             ]
@@ -21,12 +25,6 @@ export default {
                     removeUser.call(this, id);
                     return false;
                 }
-            },
-            on: {
-                onAfterLoad() {
-                    highlightItems();
-                    $$("inputUsers").attachEvent("onTimedKeyPress", filterList);
-                }
             }
         }
     ]
@@ -38,7 +36,6 @@ function removeUser(id) {
     }).then(
         () => {
             this.remove(id);
-            highlightItems();
         }
     );
 }
@@ -46,13 +43,11 @@ function removeUser(id) {
 function sortAsc() {
     $$("listUsers").sort("#name#", "asc");
     $$("chartUsers").sort("#name#", "asc");
-    highlightItems();
 }
 
 function sortDesc() {
     $$("listUsers").sort("#name#", "desc");
     $$("chartUsers").sort("#name#", "desc");
-    highlightItems();
 }
 
 function filterList() {
@@ -60,19 +55,4 @@ function filterList() {
     $$("listUsers").filter(function(obj){
         return obj.name.toLowerCase().indexOf(value) !== -1;
     })
-    highlightItems();
-}
-
-function highlightItems() {
-    const list = $$("listUsers");
-    list.clearCss("row-highlight", true);
-    for (let index = 0; index < list.data.order.length; index++) {
-        let res = list.find(function(obj){
-            return obj.id == index;
-        });
-        if(res.length !== 0) list.data.pull[`${res[0].id}`].$css = "";
-    }
-    let firstElements = list.data.order.slice(0, 5);
-    firstElements.forEach( item => list.data.pull[`${item}`].$css = "row-highlight");
-    list.refresh();
 }

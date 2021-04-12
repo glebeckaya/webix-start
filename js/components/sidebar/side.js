@@ -11,17 +11,12 @@ export default {
             autoheight: true,
             scroll: false,
             data: [ "Dashboard", "Users", "Products", "Admin" ],
-            on: { onAfterLoad: selectSideItem }
+            ready() {this.select("Dashboard")},
+            on: { 
+                onAfterSelect(id) {$$(id).show()}
+            }
         },
         { },
         { template: "<span class='webix_icon mdi mdi-check'></span>Connected", autoheight: true }
     ]
 };
-
-function selectSideItem () {
-    const sidebar = $$("sidebar");
-    sidebar.select("Dashboard");
-    sidebar.attachEvent("onAfterSelect", (id) => {
-        $$(id).show();
-    })
-}

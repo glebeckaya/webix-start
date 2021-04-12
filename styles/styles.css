@@ -16,9 +16,6 @@
     border-right: 1px solid #DADEE0;
     box-sizing: border-box;
 }
-.row-highlight {
-    background: burlywood;
-}
 .users-list .webix_list_item {
     display: flex;
     justify-content: space-between;
@@ -26,4 +23,7 @@
 .users-list .webix_icon.wxi-close {
     display: flex;
     align-items: center;
+}
+[view_id="listUsers"] .webix_list_item:nth-child(-n+5) {
+    background: burlywood;
 }

@@ -7,10 +7,5 @@ export default {
     xAxis: {
         template: "#age#",
         title: "Age"
-    },
-    on: {
-        onDataUpdate() {
-            this.refresh();
-        }
     }
 }
