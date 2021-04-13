@@ -10,8 +10,8 @@
     font-weight: 500;
     padding: 10px 15px;
 }
-.cell-rank .webix_first,
-.cell-rank .webix_first.webix_span {
+[view_id="dataFilms"] .cell-rank .webix_first,
+[view_id="dataFilms"] .cell-rank .webix_first.webix_span {
     background: #F4F5F9;
     border-right: 1px solid #DADEE0;
     box-sizing: border-box;

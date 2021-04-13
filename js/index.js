@@ -13,14 +13,7 @@ webix.ui({
 
 $$("editFilmsForm").bind($$("dataFilms"));
 
-$$("chartUsers").sync($$("listUsers"), function() {
-    this.group({ 
-        by: "country",
-        map: {
-            age:['age', 'count']
-        }
-    });
-});
+
 
 $$("dataFilms").registerFilter(
     $$("tabbar"), 
@@ -36,3 +29,31 @@ $$("dataFilms").registerFilter(
         },
     }
 );
+
+const categories = new webix.DataCollection({
+    url: "./js/data/categories.js"
+});
+const users = new webix.DataCollection({
+    url: "./js/data/users.js"
+});
+
+$$("dataCategories").sync(categories);
+$$("dataFilms").getColumnConfig("category").collection.sync($$("dataCategories"));
+$$("formRichSelect").getList().sync($$("dataCategories"))
+
+$$("listUsers").sync(users, function() {
+    this.filter(function(obj) {
+        if (obj.age < 26) {
+            return obj.$css = "row-highlight"
+        } else return obj;
+    })
+});
+
+$$("chartUsers").sync($$("listUsers"), function() {
+    this.group({ 
+        by: "country",
+        map: {
+            age:['age', 'count']
+        }
+    });
+});

@@ -1,6 +1,7 @@
 export default {
     rows: [
-        {   padding: 5,
+        {   
+            padding: 5,
             cols: [
                 { 
                     view: "text", 
@@ -19,7 +20,6 @@ export default {
             editor: "text",
             editValue: "name",
             css: "users-list",
-            url: "./js/data/users.js",
             template: "#name#, #age# from #country# <div class='webix_icon wxi-close'></div>",
             scroll: "y",
             onClick: {
@@ -36,11 +36,6 @@ export default {
                     }
                 }
             },
-            scheme: {
-                $init: (obj) => {
-                    if (obj.age < 26) obj.$css = "row-highlight";
-                }
-            }
         }
     ]
 }

@@ -26,7 +26,7 @@ export default {
             columns: [
                 { id: "rank", header: "", width: 50, sort: "int" },
                 { id: "title", header: ["Film title", { content: "textFilter" }], sort:"string", fillspace: true },
-                { id: "category", header: ["Category", { content: "selectFilter"}], options: "./js/data/categories.js" },
+                { id: "category", header: ["Category", { content: "selectFilter"}], options:[] },
                 { id: "rating",	header: ["Rating", { content: "numberFilter" }], sort: "int" },
                 { id: "votes", header: ["Votes", { content: "numberFilter" }], sort: "int" },
                 { id: "year", header: "Year", sort: "int" },
