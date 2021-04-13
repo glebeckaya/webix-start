@@ -22,9 +22,6 @@ export default {
             url: "./js/data/users.js",
             template: "#name#, #age# from #country# <div class='webix_icon wxi-close'></div>",
             scroll: "y",
-            rules: {
-                name: webix.rules.isNotEmpty,
-            },
             onClick: {
                 "wxi-close"(e, id) {
                     removeUser.call(this, id);
@@ -34,7 +31,8 @@ export default {
             on: {
                 onBeforeEditStop(state, editor) {
                     if (state.value == "") {
-                        webix.message(editor.config.editValue + " must not be empty");
+                        webix.message("Name must not be empty");
+                        return false;
                     }
                 }
             },

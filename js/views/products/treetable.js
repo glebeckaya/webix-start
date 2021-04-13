@@ -14,7 +14,8 @@ export default {
         onBeforeEditStop(state, editor, ignore) {
             const check = ( editor.getValue() != "" );
             if (!ignore && !check){
-                webix.message(editor.column + " must not be empty");
+                if (editor.column == "title") webix.message("Title must not be empty");
+                if (editor.column == "price") webix.message("Price must not be empty");
                 return false;
             }
         }
