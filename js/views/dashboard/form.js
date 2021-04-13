@@ -29,7 +29,7 @@ export default {
                 title: webix.rules.isNotEmpty,
                 year: value => {
                     const currentDate = new Date();
-                    return (value > 1920 && value <= currentDate.getFullYear() && (value % 1 == 0));
+                    return (value > 1920 && value <= currentDate.getFullYear());
                 },
                 rating: value => webix.rules.isNotEmpty && value.replace(/[,]/g, ".") > 0,
                 votes: value => value.replace(/[,]/g, ".") < 100000
@@ -48,14 +48,8 @@ function addFilmInfo() {
         const values = form.getValues();
 
         if (!values.id) {
-            const ranks = []
-            table.data.each(obj => ranks.push(obj.rank * 1));
-            let max = ranks[0];
-            ranks.forEach(elem => {
-                if(max < elem){
-                    max = elem;
-                }
-            });
+            const ranks = table.serialize().map(item => item.rank);
+            let max = Math.max(ranks);
             const newOrder = max + 1;
             values.rank = newOrder;
         }

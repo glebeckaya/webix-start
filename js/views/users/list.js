@@ -32,8 +32,7 @@ export default {
                 }
             },
             on: {
-                onBeforeEditStop(state, editor, ignore) {
-                    console.log(editor)
+                onBeforeEditStop(state, editor) {
                     if (state.value == "") {
                         webix.message(editor.config.editValue + " must not be empty");
                     }
