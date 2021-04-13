@@ -1,3 +1,4 @@
+import {categories} from "../admin/adminTable.js";
 export default {
     type: "clean",
     rows: [
@@ -15,8 +16,8 @@ export default {
                     view: "richselect",
                     name: "category",
                     id: "formRichSelect",
+                    options: categories,
                     label: "Select",
-                    options: [],
                     invalidMessage: "This field is required",
                     bottomPadding: 25
                 },

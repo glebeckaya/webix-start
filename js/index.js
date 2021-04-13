@@ -2,6 +2,7 @@ import header from "./components/header/header.js";
 import side from "./components/sidebar/side.js";
 import main from "./components/content/content.js";
 import footer from "./components/footer/footer.js";
+import {users} from "./views/users/list.js";
 
 webix.ui({
     rows: [
@@ -28,27 +29,7 @@ $$("dataFilms").registerFilter(
     }
 );
 
-const categories = new webix.DataCollection({
-    url: "./js/data/categories.js"
-});
-const users = new webix.DataCollection({
-    url: "./js/data/users.js"
-});
-
-$$("dataCategories").sync(categories);
-$$("dataFilms").getColumnConfig("category").collection.sync($$("dataCategories"));
-$$("formRichSelect").getList().sync($$("dataCategories"))
-
-$$("listUsers").sync(users, function() {
-    this.filter(function(obj) {
-        if (obj.age < 26) {
-            obj.$css = "row-highlight"; 
-        } 
-        return obj;
-    })
-});
-
-$$("chartUsers").sync($$("listUsers"), function() {
+$$("chartUsers").sync(users, function() {
     this.group({ 
         by: "country",
         map: {

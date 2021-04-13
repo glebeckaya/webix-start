@@ -1,4 +1,5 @@
-import {showConfirmMessage} from "../../utils/confirmMassage.js"
+import {showConfirmMessage} from "../../utils/confirmMassage.js";
+import {categories} from "../admin/adminTable.js";
 export default {
     minWidth: 750,
     rows: [
@@ -27,7 +28,7 @@ export default {
             columns: [
                 { id: "rank", header: "", width: 50, sort: "int" },
                 { id: "title", header: ["Film title", { content: "textFilter" }], sort:"string", fillspace: true },
-                { id: "category", header: ["Category", { content: "selectFilter"}], options:[] },
+                { id: "category", header: ["Category", { content: "selectFilter"}], options: categories },
                 { id: "rating",	header: ["Rating", { content: "numberFilter" }], sort: "int" },
                 { id: "votes", header: ["Votes", { content: "numberFilter" }], sort: "int" },
                 { id: "year", header: "Year", sort: "int" },
@@ -38,7 +39,7 @@ export default {
             url: "./js/data/data.js",
             onClick: {
                 "wxi-trash"(e, id) {
-                    showConfirmMessage(id, this, "title");
+                    showConfirmMessage(id, categories, "title");
                     return false;
                 }
             },

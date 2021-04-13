@@ -1,5 +1,8 @@
-import {showConfirmMessage} from "../../utils/confirmMassage.js"
-export default {
+import {showConfirmMessage} from "../../utils/confirmMassage.js";
+const categories = new webix.DataCollection({
+    url: "./js/data/categories.js"
+});
+const admin = {
     minWidth: 750,
     rows: [
         {
@@ -16,19 +19,28 @@ export default {
         {
             view: "datatable",
             id: "dataCategories",
+            data: categories,
             select: true,
-            css: "cell-rank",
             hover: "row-highlight",
             columns: [
-                { id: "value", header: "Category", fillspace: true,  sort: "string" },
+                { id: "value", header: "Category", fillspace: true,  sort: "string", editor: "text" },
                 { id: "del", header: "Del", template: "{common.trashIcon()}", width: 50 },
             ],
             scroll: "y",
             editable: true,
             onClick: {
                 "wxi-trash"(e, id) {
-                    showConfirmMessage(id, this, "value");
+                    showConfirmMessage(id, categories, "value");
                     return false;
+                }
+            },
+            on: {
+                onBeforeEditStop(state, editor, ignore) {
+                    const check = ( editor.getValue() != "" );
+                    if (!ignore && !check){
+                        webix.message("Name of category must not be empty");
+                        return false;
+                    }
                 }
             }
         }
@@ -43,7 +55,9 @@ function addNewCategory() {
         cancel: "Cancel",
         input: { required: true }
     }).then(result => {
-        $$("dataCategories").add({value: result});
+        categories.add({value: result});
         webix.message("new category added successfully!");
     });
 }
+
+export {admin, categories};
