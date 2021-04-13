@@ -49,7 +49,7 @@ function addFilmInfo() {
 
         if (!values.id) {
             const ranks = table.serialize().map(item => item.rank);
-            let max = Math.max(ranks);
+            let max = Math.max(...ranks);
             const newOrder = max + 1;
             values.rank = newOrder;
         }
@@ -60,7 +60,6 @@ function addFilmInfo() {
         table.unselectAll();
     }
 }
-
 
 function correctInfo(obj) {
     Object.keys(obj).forEach(key => {
