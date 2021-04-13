@@ -2,6 +2,22 @@ export default {
     minWidth: 750,
     rows: [
         {
+            view: "tabbar", 
+            id: "tabbar", 
+            value: "allFilms",
+            options: [
+                { "id": "allFilms", "value": "All", width: 100 },
+                { "id": "oldFilms", "value": "Old", width: 100 },
+                { "id": "modernFilms", "value": "Modern", width: 100 },
+                { "id": "newFilms", "value": "New", width: 100 },
+            ],
+            on: {
+                onAfterTabClick(id,ev) {
+                    $$("dataFilms").filterByAll();
+                }
+            }
+        },
+        {
             view: "datatable",
             id: "dataFilms",
             select: true,
@@ -10,9 +26,10 @@ export default {
             columns: [
                 { id: "rank", header: "", width: 50, sort: "int" },
                 { id: "title", header: ["Film title", { content: "textFilter" }], sort:"string", fillspace: true },
-                { id: "year",	header: ["Released", { content: "numberFilter" }], sort:"int"},
-                { id: "votes",	header: ["Votes", { content: "numberFilter" }], sort: "int"},
-                { id: "rating",	header: ["Rating", { content: "numberFilter" }], sort: "int"},
+                { id: "category", header: ["Category", { content: "selectFilter"}], options: "./js/data/categories.js" },
+                { id: "rating",	header: ["Rating", { content: "numberFilter" }], sort: "int" },
+                { id: "votes", header: ["Votes", { content: "numberFilter" }], sort: "int" },
+                { id: "year", header: "Year", sort: "int" },
                 { id: "del", header: "Del", template: "{common.trashIcon()}", width: 50 },
             ],
             scroll: "y",
@@ -24,12 +41,13 @@ export default {
                     return false;
                 }
             },
-            on: {
-                onAfterSelect(id) {
-                    const values = this.getItem(id);
-                    $$("editFilmsForm").setValues(values)
-                },
-            }
+            scheme: {
+                $init: function(obj) {
+                    obj.category =  Math.floor(1 + Math.random() * 4);
+                    obj.rating = obj.rating.replace(/\,/g, ".");
+                    obj.votes = obj.votes.replace(/\,/g, ".");
+                }
+            }, 
         }
     ]
 }
