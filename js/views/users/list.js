@@ -1,3 +1,4 @@
+import {showConfirmMessage} from "../../utils/confirmMassage.js"
 export default {
     rows: [
         {   
@@ -24,7 +25,7 @@ export default {
             scroll: "y",
             onClick: {
                 "wxi-close"(e, id) {
-                    removeUser.call(this, id);
+                    showConfirmMessage(id, this, "name");
                     return false;
                 }
             },
@@ -36,6 +37,12 @@ export default {
                     }
                 }
             },
+            scheme:{
+                $init(obj) {
+                    if (obj.age < 26) obj.$css = "row-highlight";
+                }
+            }
+
         }
     ]
 }
@@ -43,14 +50,6 @@ export default {
 webix.protoUI({
     name: "editlist"
 }, webix.EditAbility, webix.ui.list);
-
-function removeUser(id) {
-    webix.confirm({
-        text: `Do you really want to delete user "${this.data.pull[id].name}"?`
-    }).then(
-        () => this.remove(id)
-    );
-}
 
 function sortAsc() {
     $$("listUsers").sort("#name#", "asc");

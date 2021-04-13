@@ -1,3 +1,4 @@
+import {showConfirmMessage} from "../../utils/confirmMassage.js"
 export default {
     minWidth: 750,
     rows: [
@@ -23,24 +24,15 @@ export default {
                 { id: "del", header: "Del", template: "{common.trashIcon()}", width: 50 },
             ],
             scroll: "y",
-            autoConfig: true,
             editable: true,
             onClick: {
                 "wxi-trash"(e, id) {
-                    removeCategory.call(this, id);
+                    showConfirmMessage(id, this, "value");
                     return false;
                 }
             }
         }
     ]
-}
-
-function removeCategory(id) {
-    webix.confirm({
-        text: `Do you really want to delete category "${this.data.pull[id].value}"?`
-    }).then(
-        () => this.remove(id)
-    );
 }
 
 function addNewCategory() {

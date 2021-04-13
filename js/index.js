@@ -13,8 +13,6 @@ webix.ui({
 
 $$("editFilmsForm").bind($$("dataFilms"));
 
-
-
 $$("dataFilms").registerFilter(
     $$("tabbar"), 
     { columnId: "year", compare: function(value, filter){
@@ -44,8 +42,9 @@ $$("formRichSelect").getList().sync($$("dataCategories"))
 $$("listUsers").sync(users, function() {
     this.filter(function(obj) {
         if (obj.age < 26) {
-            return obj.$css = "row-highlight"
-        } else return obj;
+            obj.$css = "row-highlight"; 
+        } 
+        return obj;
     })
 });
 

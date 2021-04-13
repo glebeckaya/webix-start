@@ -1,3 +1,4 @@
+import {showConfirmMessage} from "../../utils/confirmMassage.js"
 export default {
     minWidth: 750,
     rows: [
@@ -37,7 +38,7 @@ export default {
             url: "./js/data/data.js",
             onClick: {
                 "wxi-trash"(e, id) {
-                    removeFilm.call(this, id);
+                    showConfirmMessage(id, this, "title");
                     return false;
                 }
             },
@@ -50,12 +51,4 @@ export default {
             }, 
         }
     ]
-}
-
-function removeFilm(id) {
-    webix.confirm({
-        text: `Do you really want to delete movie "${this.data.pull[id].title}"?`
-    }).then(
-        () => this.remove(id)
-    );
 }
