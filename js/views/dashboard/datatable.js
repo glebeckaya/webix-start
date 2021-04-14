@@ -39,7 +39,7 @@ export default {
             url: "./js/data/data.js",
             onClick: {
                 "wxi-trash"(e, id) {
-                    showConfirmMessage(id, categories, "title");
+                    showConfirmMessage(id, this, "title");
                     return false;
                 }
             },

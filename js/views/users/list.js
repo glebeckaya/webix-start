@@ -1,6 +1,11 @@
 import {showConfirmMessage} from "../../utils/confirmMassage.js";
 const users = new webix.DataCollection({
-    url: "./js/data/users.js"
+    url: "./js/data/users.js",
+    scheme:{
+        $change(item) {
+            if (item.age < 26) item.$css = "row-highlight";
+        }
+    }
 });
 const usersList = {
     rows: [
@@ -29,7 +34,7 @@ const usersList = {
             scroll: "y",
             onClick: {
                 "wxi-close"(e, id) {
-                    showConfirmMessage(id, this, "name");
+                    showConfirmMessage(id, users, "name");
                     return false;
                 }
             },
@@ -40,13 +45,7 @@ const usersList = {
                         return false;
                     }
                 },
-            },
-            scheme:{
-                $change(item) {
-                    if (item.age < 26) item.$css = "row-highlight";
-                }
             }
-
         }
     ]
 }
