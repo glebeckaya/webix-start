@@ -1,3 +1,4 @@
+import {categories} from "../admin/adminTable.js";
 export default {
     type: "clean",
     rows: [
@@ -11,6 +12,15 @@ export default {
                 { view: "text", label: "Year", name: "year", invalidMessage: "Enter year between 1970 and 2021", bottomPadding: 25 },
                 { view: "text", label: "Rating", name: "rating", invalidMessage: "This field is required and can`t be 0", bottomPadding: 25 },
                 { view: "text", label: "Votes", name: "votes", invalidMessage: "Votes can`t be 100000 and more", bottomPadding: 25 },
+                {
+                    view: "richselect",
+                    name: "category",
+                    id: "formRichSelect",
+                    options: categories,
+                    label: "Select",
+                    invalidMessage: "This field is required",
+                    bottomPadding: 25
+                },
                 { margin: 5, cols: [
                     { 
                         view: "button", 
@@ -32,7 +42,8 @@ export default {
                     return (value > 1920 && value <= currentDate.getFullYear());
                 },
                 rating: value => webix.rules.isNotEmpty && value.replace(/[,]/g, ".") > 0,
-                votes: value => value.replace(/[,]/g, ".") < 100000
+                votes: value => value.replace(/[,]/g, ".") < 100000,
+                category: webix.rules.isNotEmpty
             }
         },
         { }

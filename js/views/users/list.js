@@ -1,6 +1,16 @@
-export default {
+import {showConfirmMessage} from "../../utils/confirmMassage.js";
+const users = new webix.DataCollection({
+    url: "./js/data/users.js",
+    scheme:{
+        $change(item) {
+            if (item.age < 26) item.$css = "row-highlight";
+        }
+    }
+});
+const usersList = {
     rows: [
-        {   padding: 5,
+        {   
+            padding: 5,
             cols: [
                 { 
                     view: "text", 
@@ -19,12 +29,12 @@ export default {
             editor: "text",
             editValue: "name",
             css: "users-list",
-            url: "./js/data/users.js",
+            data: users,
             template: "#name#, #age# from #country# <div class='webix_icon wxi-close'></div>",
             scroll: "y",
             onClick: {
                 "wxi-close"(e, id) {
-                    removeUser.call(this, id);
+                    showConfirmMessage(id, users, "name");
                     return false;
                 }
             },
@@ -34,12 +44,7 @@ export default {
                         webix.message("Name must not be empty");
                         return false;
                     }
-                }
-            },
-            scheme: {
-                $init: (obj) => {
-                    if (obj.age < 26) obj.$css = "row-highlight";
-                }
+                },
             }
         }
     ]
@@ -48,14 +53,6 @@ export default {
 webix.protoUI({
     name: "editlist"
 }, webix.EditAbility, webix.ui.list);
-
-function removeUser(id) {
-    webix.confirm({
-        text: `Do you really want to delete user "${this.data.pull[id].name}"?`
-    }).then(
-        () => this.remove(id)
-    );
-}
 
 function sortAsc() {
     $$("listUsers").sort("#name#", "asc");
@@ -67,7 +64,7 @@ function sortDesc() {
 
 function filterList() {
     const value = $$("inputUsers").getValue().toLowerCase();
-    $$("listUsers").filter(function(obj){
+    users.filter(function(obj){
         return obj.name.toLowerCase().indexOf(value) !== -1;
     })
 }
@@ -78,7 +75,7 @@ function addNewUser() {
     const list = $$("listUsers");
     const listLength = Object.keys(list.data.pull).length;
     const newUser = createNewUser(inputValue, listLength);
-    list.add(newUser);
+    users.add(newUser);
     webix.message("new user added successfully!");
     $$("inputUsers").setValue("");
     filterList();
@@ -92,3 +89,5 @@ function createNewUser(name, usersAmount) {
     user.country = $$("listUsers").getItem(idRandomUser).country;
     return user;
 }
+
+export {usersList, users};

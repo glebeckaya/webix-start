@@ -2,6 +2,7 @@ import header from "./components/header/header.js";
 import side from "./components/sidebar/side.js";
 import main from "./components/content/content.js";
 import footer from "./components/footer/footer.js";
+import {users} from "./views/users/list.js";
 
 webix.ui({
     rows: [
@@ -12,15 +13,6 @@ webix.ui({
 });
 
 $$("editFilmsForm").bind($$("dataFilms"));
-
-$$("chartUsers").sync($$("listUsers"), function() {
-    this.group({ 
-        by: "country",
-        map: {
-            age:['age', 'count']
-        }
-    });
-});
 
 $$("dataFilms").registerFilter(
     $$("tabbar"), 
@@ -36,3 +28,12 @@ $$("dataFilms").registerFilter(
         },
     }
 );
+
+$$("chartUsers").sync(users, function() {
+    this.group({ 
+        by: "country",
+        map: {
+            age:['age', 'count']
+        }
+    });
+});
